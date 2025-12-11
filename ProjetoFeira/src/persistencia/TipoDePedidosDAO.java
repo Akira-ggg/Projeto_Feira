@@ -2,10 +2,7 @@ package persistencia;
 import modelos.Pedidos;
 import modelos.interfaces.IPedidosCRUD;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 
@@ -56,7 +53,22 @@ public class TipoDePedidosDAO implements IPedidosCRUD {
 
     @Override
     public ArrayList<Pedidos> listaDePedidos() throws Exception {
-        return null;
+        FileReader fr = new FileReader(nomeDoArquivo);
+        BufferedReader br = new BufferedReader(fr);
+        ArrayList<Pedidos> lista = new ArrayList<>();
+        String linha = "";
+        while((linha =br.readLine()) !=null){
+            String vetorStr[] = linha.split(";");
+            String nome = vetorStr[0];
+            int quantidade = Integer.parseInt(vetorStr[1]);
+            double preco = Double.parseDouble(vetorStr[2]);
+            Pedidos objPedido = new Pedidos(nome, quantidade, preco);
+            lista.add(objPedido);
+
+        }
+        br.close();
+        return lista;
+
     }
 
     @Override

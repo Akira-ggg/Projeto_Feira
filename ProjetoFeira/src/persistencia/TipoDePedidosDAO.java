@@ -67,10 +67,7 @@ public class TipoDePedidosDAO implements IPedidosCRUD {
 
     }
 
-    @Override
-    public void editar(Pedidos pedidos) throws Exception {
-
-    }
+   
 
     @Override
     public ArrayList<Pedidos> listaDePedidos() throws Exception {
@@ -101,9 +98,20 @@ public class TipoDePedidosDAO implements IPedidosCRUD {
         lista = this.listaDePedidos();
         for(Pedidos obj : lista){
             if(obj.getId() == pedidos.getId()){
-                String = 
+                String str = pedidos.getId() + ";" +
+                        pedidos.getQuantidade() + ";" +
+                        pedidos.getPreco() + ";" + "\n";
+                br.write(str);
+
+            } else{
+                String str = obj.getId() + ";" +
+                        obj.getQuantidade() + ";" +
+                        obj.getPreco() + ";" + "\n";
+                br.write(str);
             }
         }
+        br.close();
+        fr.close();
 
 
     }

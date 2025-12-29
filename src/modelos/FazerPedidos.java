@@ -25,8 +25,31 @@ public class FazerPedidos implements IPedidos {
 
 
 
+
+
     @Override
-    public void somaTotal(Pedido tipoDePedido) {
+    public double somaTotal(Pedido tipoDePedido) throws Exception {
+
+        double soma = 0;
+        try{
+            FileReader fr = new FileReader(nomeDoArquivo);
+            BufferedReader bw = new BufferedReader(fr);
+            String linha= "";
+            while((linha = bw.readLine()) != null){
+                String[] linhas = linha.split(";");
+                int qunatidade = Integer.parseInt(linhas[2]);
+                double preco =  Double.parseDouble(linhas[3]);
+                double calcular = qunatidade * preco;
+                soma += calcular;
+            }
+
+
+
+        }catch(Exception e){
+            throw new Exception("Erro ao somar o total de produtos");
+        }
+        return soma;
+
 
     }
 
@@ -61,7 +84,28 @@ public class FazerPedidos implements IPedidos {
     }
 
     @Override
-    public void removerProduto(Pedido tipoDePedido) {
+    public void removerProduto(int id)throws Exception {
+        ArrayList<Pedido> listaProdutos = this.listarProdutos();
+        try{
+            FileWriter fw = new FileWriter(nomeDoArquivo);
+            BufferedWriter bw = new BufferedWriter(fw);
+            for(Pedido pedido : listaProdutos){
+                if(pedido.getId() != id){
+                    String linha = pedido.getId() + ";" +
+                            pedido.getNomePedido() + ";" +
+                            pedido.getQunatidde() + ";" +
+                            pedido.getPreco() + ";" +
+                            "\n";
+                    bw.write(linha);
+
+
+                }
+            }
+            bw.close();
+
+        } catch (Exception e) {
+            throw new Exception("Erro ao remover produto");
+        }
 
     }
 
@@ -82,7 +126,8 @@ public class FazerPedidos implements IPedidos {
                 String nome = vetorSTR[1];
                 int quantidade = Integer.parseInt(vetorSTR[2]);
                 double valor = Double.parseDouble(vetorSTR[3]);
-                objTipoDePedido = new Pedido(id, nome, quantidade, valor);
+                double somaDeCadaProduto = quantidade * valor;
+                objTipoDePedido = new Pedido(id, nome, quantidade, valor, somaDeCadaProduto);
                 listaProdutos.add(objTipoDePedido);
 
 

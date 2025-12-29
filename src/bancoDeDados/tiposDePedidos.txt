@@ -1,3 +1,1 @@
-1;cebolinha;1;120.0
-2;rucula;10;2.5;
-3;salsa;20;2.5;
+2;salsa;20;2.5;
